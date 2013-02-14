@@ -1,5 +1,7 @@
 var mongoose = require('mongoose')
   , User = mongoose.model('User')
+  , dbox = require('dbox')
+  , dropbox = dbox.app({"app_key": "7is17xce4pu49m1", "app_secret": "277e15u3lk5xjdu"})
   , _ = require('underscore');
 
 exports.signin = function (req, res) {}
@@ -45,7 +47,7 @@ exports.logout = function (req, res) {
 
 // session
 exports.session = function (req, res) {
-  res.redirect('/');
+  res.redirect('/dashboard');
 }
 
 // signup
@@ -58,7 +60,7 @@ exports.create = function (req, res) {
     }
     req.logIn(user, function(err) {
       if (err) return next(err);
-      return res.redirect('/connect/'+user._id);
+      return res.redirect('/connect');
     });
   });
 }
@@ -89,15 +91,12 @@ exports.user = function (req, res, next, id) {
 
 // Dropbox Connect
 exports.connect = function(req,res){
-  var dbox = require('dbox')
-    , app = dbox.app({"app_key": "7is17xce4pu49m1", "app_secret": "277e15u3lk5xjdu"})
-    , user = req.profile
-    , callbackUrl = 'http://localhost:3000/connect/dropbox/'+user._id;
-  
-  app.requesttoken(function(status, request_token){
+  var user = req.user
+    , callbackUrl = 'http://localhost:3000/connect/dropbox/';
+
+  dropbox.requesttoken(function(status, request_token){
       user = _.extend(user, { dropbox_req_token: request_token });
       user.save(function(err,doc){
-        console.log('DOC REPLY: ', doc);
         res.render('users/connect', {
           status: status,
           dbox_url: 'https://www.dropbox.com/1/oauth/authorize?oauth_token='+request_token.oauth_token+'&oauth_callback='+callbackUrl
@@ -107,15 +106,11 @@ exports.connect = function(req,res){
 }
 
 exports.dropbox = function(req,res){
-  var dbox = require('dbox')
-    , app = dbox.app({"app_key": "7is17xce4pu49m1", "app_secret": "277e15u3lk5xjdu"})
-    , user = req.profile;
+  var user = req.user;
 
-  app.accesstoken(user.dropbox_req_token, function(status, access_token){
+  dropbox.accesstoken(user.dropbox_req_token, function(status, access_token){
      user = _.extend(user, { dropbox_acc_token: access_token });
      user.save(function(err,doc){
-        console.log('DOC REPLY: ', doc);
-        console.log('ERROR', err);
         res.render('dashboard/tutorial',{
           status: status,
           service: 'Dropbox'

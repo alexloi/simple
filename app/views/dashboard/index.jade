@@ -1,5 +1,43 @@
 extends ../layouts/default
 
 block content
-   h1 Dashboard page
-   a(class="btn btn-danger", href="/logout") Logout
+ .container 
+  .row-fluid  
+   .span12
+     h1 Dashboard page
+     a.btn.btn-danger(href="/logout") Logout
+     hr
+  .row-fluid
+   .span6
+     h2 Form
+     form.horizontal(method="post", action="/data/store")
+       .control-group
+          label.control-label(for='ssn') Social security number
+          .controls
+            input#ssn(type='text', name="ssn", placeholder='Social security number')
+
+       .control-group
+         label.control-label(for='phone') Phone
+         .controls
+          input#phone(type='text', name="phone", placeholder='Phone')
+
+       .control-group
+         label.control-label(for='master') Master key
+         .controls
+           input#master-sub(type='text', name="master", placeholder='Master key')
+           input(type='hidden', name='_csrf', value=token)
+        
+       .form-actions
+          button.btn.btn-primary(type='submit') Submit
+   .span6
+     h2 Retrieve
+     form.horizontal(method="post", action="/data/retrieve")
+       .control-group
+         label.control-label(for='master') Master key
+         .controls
+           input#master-retr(type='text', name='master', placeholder='Master key')
+           input(type='hidden', name='_csrf', value=token)
+       .form-actions
+         button.btn.btn-success(type='submit') Retrieve
+
+     

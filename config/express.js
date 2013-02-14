@@ -52,6 +52,15 @@ module.exports = function (app, config, passport) {
     app.use(passport.initialize())
     app.use(passport.session())
 
+    // CSRF
+    // connect csrf
+    var csrf = express.csrf();
+    app.use(csrf);
+
+    app.use(function(req, res, next){
+      res.locals.token = req.session._csrf;
+      next();
+    });
     // Favicon
     app.use(express.favicon());
 

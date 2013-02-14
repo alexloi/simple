@@ -12,6 +12,7 @@ block auth
       label.control-label(for='password') Password
       .controls
         input#password(type='password', name="password", placeholder='Password')
+        input(type='hidden', name='_csrf', value=token)
 
     .form-actions
       button.btn.btn-primary(type='submit') Login
