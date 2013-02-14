@@ -1,32 +1,39 @@
 var mongoose = require('mongoose')
   , Demo = mongoose.model('Demo')
+  , User = mongoose.model('User')
   , async = require('async');
 
-module.exports = function (app) {
-  
+module.exports = function (app, passport, auth) {
+
   // Demo routes
-  var demos = require('../app/controllers/demos');
+  //var demos = require('../app/controllers/demos');
+
+  //app.get('/', demos.index);
+  //app.get('/connect', demos.connect);
+
+  // Page routes
+  var pages = require('../app/controllers/pages');
   
-  // Home route
-  app.get('/', demos.index);
+  // If authenticated take to dashboard
+  app.get('/', auth.checkAuth, pages.index);
 
-  app.get('/demos/new', demos.new);
-  app.post('/demos',  demos.create);
-  app.get('/demos/:id', demos.show);
-  app.get('/demos/:id/edit', demos.edit);
-  app.put('/demos/:id', demos.update);
-  app.del('/demos/:id',  demos.destroy);
-
-  app.param('demoId', function (req, res, next, id) {
-    Demo
-      .findOne({ _id : id })
-      .exec(function (err, demo) {
-        if (err) return next(err);
-        if (!demo) return next(new Error('Failed to load Demo ' + id));
-        req.profile = demo;
-        next();
-      });
-  });
+  // // // Dashboard
+  var dashboard = require('../app/controllers/dashboard');
+  app.get('/dashboard', auth.requiresLogin, dashboard.index);
+  app.get('/dashboard/tutorial', auth.requiresLogin, dashboard.tutorial);
+  // User routes
+  var users = require('../app/controllers/users');
+  
+  app.get('/login', users.login);
+  app.get('/signup', users.signup);
+  app.get('/logout', users.logout);
+  app.post('/users', users.create);
+  app.get('/connect/:userId', auth.requiresLogin, users.connect);
+  app.get('/connect/dropbox/:userId', auth.requiresLogin, users.dropbox);
+  app.post('/users/session', passport.authenticate('local', {failureRedirect: '/login', failureFlash: 'Invalid email or password.'}), users.session);
+  app.get('/users/:userId', users.show);
+  
+  app.param('userId', users.user);
 
   // app.param('id', function(req, res, next, id){
   //   Article

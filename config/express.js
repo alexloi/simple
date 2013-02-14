@@ -7,7 +7,7 @@ var express = require('express')
   , flash = require('connect-flash')
   , viewHelpers = require('./middlewares/views');
 
-module.exports = function (app, config) {
+module.exports = function (app, config, passport) {
 
   app.set('showStackError', true);
   // should be placed before express.static
@@ -38,7 +38,7 @@ module.exports = function (app, config) {
 
     // express/mongo session storage
     app.use(express.session({
-      secret: 'demo',
+      secret: 'simplehealth',
       store: new mongoStore({
         url: config.db,
         collection : 'sessions'
@@ -47,7 +47,12 @@ module.exports = function (app, config) {
 
     // connect flash for flash messages
     app.use(flash());
+    
+    // Passport init / session
+    app.use(passport.initialize())
+    app.use(passport.session())
 
+    // Favicon
     app.use(express.favicon());
 
     // routes should be at the last

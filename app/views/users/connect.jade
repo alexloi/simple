@@ -1,0 +1,8 @@
+extends ../layouts/default
+
+block content
+  h1 Connect to file manager
+  - if(status == 200)
+         a(class="btn btn-primary", href=dbox_url) Connect dropbox
+  - else
+         a(class="btn disabled") Connect dropbox is currently unavailable
