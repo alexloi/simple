@@ -3,6 +3,14 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
+dd{
+	cursor: pointer;
+}
+
+dl.vertical dd:hover{
+	border-left: 3px solid #27BEDC !important;
+}
+
 a{
 	cursor: pointer !important;
 }
@@ -15,12 +23,8 @@ a{
 	margin-bottom: 10px;
 }
 
-dd{
-	cursor: pointer;
-}
-
-dd:hover{
-	border-left: 3px solid #27BEDC !important;
+.margin-right{
+	margin-right: 10px;	
 }
 
 .store{

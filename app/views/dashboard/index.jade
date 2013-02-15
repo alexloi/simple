@@ -1,18 +1,19 @@
 extends ../layouts/default
 
 block content
-  .row
-    .twelve.columns
+  
+  .fixed.contain-to-grid
       nav.top-bar
         ul
           li.name 
             h1 
               a(href="#") Dashboard
-        section
-          ul.right
-            li.divider
-            li 
-              a(href="#") Logout          
+
+  .row(style="margin-top: 10px; margin-bottom: 10px")
+    .twelve.columns
+        dl.horizontal.tabs
+          dd
+            a(href="/logout") Logout
 
   .row
     .three.columns
@@ -53,18 +54,18 @@ block content
                input(type='hidden', name='_csrf', value=token)
                button.button(type='submit') Submit
 
-      .row
-        .twelve.columns#form-retrieve
-          form(method="post", action="/data/retrieve")
-            .row
-              .four.mobile-one.columns
-                label.left.inline Master key
-              .eight.mobile-one.columns
-                input#master-retr(type='text', name='master', placeholder='Master key')
-            .row
-              .twelve.mobile-one.columns
-                input(type='hidden', name='_csrf', value=token)
-                button.button(type='submit') Submit
+//      .row
+//        .twelve.columns#form-retrieve
+//          form(method="post", action="/data/retrieve")
+//            .row
+//              .four.mobile-one.columns
+//                label.left.inline Master key
+//              .eight.mobile-one.columns
+//                input#master-retr(type='text', name='master', placeholder='Master key')
+//            .row
+//              .twelve.mobile-one.columns
+//                input(type='hidden', name='_csrf', value=token)
+//                button.button(type='submit') Submit
   
 
   
