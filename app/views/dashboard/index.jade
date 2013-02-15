@@ -2,7 +2,7 @@ extends ../layouts/default
 
 block content
   
-  .fixed.contain-to-grid
+  #top-bar.contain-to-grid
       nav.top-bar
         ul
           li.name 
@@ -50,7 +50,7 @@ block content
                  input#master-sub(type='text', name="master", placeholder='Master key')
 
             .row
-              .twelve.mobile-one.columns
+              .twelve.mobile-one.columns(style="text-align:center")
                input(type='hidden', id='_csrf', name='_csrf', value=token)
                button.button(id='pushData') SUBMIT
 
