@@ -5,8 +5,8 @@
   , "private": false
   , "author": "Alexis Loizou, alex@roboboogie.us, Github: alexloi"
   , "engines": {
-        "node": "0.6.18"
-      , "npm": "1.1.9"
+        "node": "latest"
+      , "npm": "lastest"
     }
   , "scripts": {
       "start": "./node_modules/.bin/nodemon server.js"
@@ -14,7 +14,7 @@
   , "dependencies": {
       "express": "latest"
     , "jade": "latest"
-    , "mongoose": "3.5.5"
+    , "mongoose": "latest"
     , "connect-mongo": "latest"
     , "connect-flash": "latest"
     , "underscore": "latest"
