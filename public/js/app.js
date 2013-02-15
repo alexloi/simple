@@ -1,5 +1,4 @@
 var masterKey = "";
 
-$(document).ready(function () {
-  
+$(document).ready(function(){
 });

@@ -6,6 +6,7 @@ var mongoose = require('mongoose')
   , dbox = require('dbox')
   , randomString = require('randomstring')
   , dropbox = dbox.app({"app_key": config.dropbox.appKey, "app_secret": config.dropbox.appSecret})
+  , url = require('url')
   , _ = require('underscore');
 
 exports.signin = function (req, res) {}
@@ -87,7 +88,12 @@ exports.restore = function(req, res){
 
 // session
 exports.session = function (req, res) {
-  res.redirect('/dashboard');
+  var user = req.user;
+
+  console.log("THIS IS THE USER:", user);
+
+  if(user.integration) res.redirect('/dashboard');
+  else res.redirect('/connect');
 }
 
 // signup
@@ -147,15 +153,46 @@ exports.connect = function(req, res){
 }
 
 exports.dropbox = function(req,res){
-  var user = req.user;
+  var user = req.user
+    , urlParams = url.parse(req.url, true);
 
-  dropbox.accesstoken(user.dropbox_req_token, function(status, access_token){
-     user = _.extend(user, { dropbox_acc_token: access_token });
-     user.save(function(err,doc){
-        res.render('dashboard/tutorial',{
-          status: status,
-          service: 'Dropbox'
-        });  
-      }); 
-  }); 
+  // OFFLOAD THAT AS A MIDDLEWARE FUNCTION!
+  // Check params to find if user has accepted  
+  console.log("URL PARAMS:", urlParams);
+  if(urlParams.query.not_approved){
+    user = _.extend(user, { integration: false });
+    user.save(function(err,doc){
+      if(err){
+        console.log("SAVE USER INTEGRATION FALSE ON DROPBOX FAIL", doc);
+        res.redirect('/connect');
+        return;
+      }else{
+        console.log('INTEGRATION SUCCESS:', doc);
+        res.redirect('/connect');
+      }
+    });
+    
+    return;
+  }else{
+    user = _.extend(user, { integration: true });
+    
+    user.save(function(err,doc){
+      if(err){
+        console.log("SAVE USER INTEGRATION TRUE ON DROPBOX FAIL");
+        res.redirect('/connect');
+        return;
+      }
+    });
+
+    dropbox.accesstoken(user.dropbox_req_token, function(status, access_token){
+       user = _.extend(user, { dropbox_acc_token: access_token });
+       user.save(function(err,doc){
+          res.render('dashboard/tutorial',{
+            status: status,
+            service: 'Dropbox'
+          });  
+          return;
+        });
+    }); 
+  }
 }

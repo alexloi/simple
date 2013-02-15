@@ -40,7 +40,7 @@ require('./config/passport')(passport, config);
 require('./config/express')(app, config, passport);
 
 // Set routes
-require('./config/routes')(app, passport, auth, config);
+require('./config/routes')(app, passport, auth);
 
 // Start app
 var port = process.env.PORT || 3000;

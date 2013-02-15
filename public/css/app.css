@@ -3,6 +3,34 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
-a {
-  color: #00B7FF;
+a{
+	cursor: pointer !important;
+}
+
+.no-top-margin{
+	margin-top: 0px;
+}
+
+.bottom-margin{
+	margin-bottom: 10px;
+}
+
+dd{
+	cursor: pointer;
+}
+
+dd:hover{
+	border-left: 3px solid #27BEDC !important;
+}
+
+.store{
+	height: 50px;
+	width: 100%;
+	position: absolute;
+	z-index: 2;
+	border-bottom: 3px solid #27BEDC !important;
+	background-color: #F2F2F2;
+	left: 0;
+	top: 0;
+	padding: 10px;
 }

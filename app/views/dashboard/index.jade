@@ -1,43 +1,70 @@
 extends ../layouts/default
 
 block content
- .container 
-  .row-fluid  
-   .span12
-     h1 Dashboard page
-     a.btn.btn-danger(href="/logout") Logout
-     hr
-  .row-fluid
-   .span6
-     h2 Form
-     form.horizontal(method="post", action="/data/store")
-       .control-group
-          label.control-label(for='ssn') Social security number
-          .controls
-            input#ssn(type='text', name="ssn", placeholder='Social security number')
+  .row
+    .twelve.columns
+      nav.top-bar
+        ul
+          li.name 
+            h1 
+              a(href="#") Dashboard
+        section
+          ul.right
+            li.divider
+            li 
+              a(href="#") Logout          
 
-       .control-group
-         label.control-label(for='phone') Phone
-         .controls
-          input#phone(type='text', name="phone", placeholder='Phone')
+  .row
+    .three.columns
+      .panel
+        h5 Profiles
+        button.button.small.alert.bottom-margin(id="form-add") Add new profile
+        dl.vertical.tabs
+          dd
+            a(href="#") Record 1
+          dd
+            a(href="#") Record 2
 
-       .control-group
-         label.control-label(for='master') Master key
-         .controls
-           input#master-sub(type='text', name="master", placeholder='Master key')
-           input(type='hidden', name='_csrf', value=token)
-        
-       .form-actions
-          button.btn.btn-primary(type='submit') Submit
-   .span6
-     h2 Retrieve
-     form.horizontal(method="post", action="/data/retrieve")
-       .control-group
-         label.control-label(for='master') Master key
-         .controls
-           input#master-retr(type='text', name='master', placeholder='Master key')
-           input(type='hidden', name='_csrf', value=token)
-       .form-actions
-         button.btn.btn-success(type='submit') Retrieve
+    .nine.columns
+      .row
+        .twelve.columns#form-area
+          form(method="post", action="/data/store")
+            fieldset.no-top-margin 
+             .row
+               .four.mobile-one.columns
+                 label.left.inline Social security number
+               .eight.mobile-one.columns
+                 input#ssn(type='text', name="ssn", placeholder='Social security number')
 
-     
+             .row
+               .four.mobile-one.columns
+                 label.left.inline Phone number
+               .eight.mobile-one.columns
+                 input#phone(type='text', name="phone", placeholder='Phone')
+
+             .row
+               .four.mobile-one.columns
+                 label.left.inline Master key
+               .eight.mobile-one.columns
+                 input#master-sub(type='text', name="master", placeholder='Master key')
+
+            .row
+              .twelve.mobile-one.columns
+               input(type='hidden', name='_csrf', value=token)
+               button.button(type='submit') Submit
+
+      .row
+        .twelve.columns#form-retrieve
+          form(method="post", action="/data/retrieve")
+            .row
+              .four.mobile-one.columns
+                label.left.inline Master key
+              .eight.mobile-one.columns
+                input#master-retr(type='text', name='master', placeholder='Master key')
+            .row
+              .twelve.mobile-one.columns
+                input(type='hidden', name='_csrf', value=token)
+                button.button(type='submit') Submit
+  
+
+  

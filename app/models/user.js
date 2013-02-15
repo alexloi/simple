@@ -12,6 +12,7 @@ var UserSchema = new Schema({
   , provider: String
   , hashed_password: String
   , salt: String
+  , integration: Boolean
   , dropbox_req_token: {}
   , dropbox_acc_token: {}
 });
