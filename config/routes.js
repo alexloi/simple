@@ -4,7 +4,6 @@ var mongoose = require('mongoose')
   , async = require('async');
 
 module.exports = function (app, passport, auth) {
-
   // Page routes
   var pages = require('../app/controllers/pages');
   
@@ -20,7 +19,9 @@ module.exports = function (app, passport, auth) {
   var users = require('../app/controllers/users');
   app.get('/login', users.login);
   app.get('/signup', users.signup);
-  app.get('/logout', users.logout);
+  app.get('/reset', users.reset);
+  app.post('/reset', users.restore);
+  app.get('/logout', auth.requiresLogin, users.logout);
   app.post('/users', users.create);
   app.get('/connect', auth.requiresLogin, users.connect);
   app.get('/connect/dropbox', auth.requiresLogin, users.dropbox);

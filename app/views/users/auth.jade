@@ -6,11 +6,9 @@ block main
 block content
   .row
     .span6
-      if (typeof errors !== 'undefined')
+      if (typeof msg !== 'undefined')
         .fade.in.alert.alert-block.alert-error
           a.close(data-dismiss="alert", href="javascript:void(0)") x
-          ul
-            each error in errors
-              li= error.type
+          p= msg
 
       block auth

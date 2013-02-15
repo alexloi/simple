@@ -1,0 +1,18 @@
+extends auth
+
+block auth
+  form.forgot.form-horizontal(action="/reset", method="post")
+    
+    .control-group
+      label.control-label(for='email') Email
+      .controls
+        input#email(type='text', name="email", placeholder='Email')
+        
+    .control-group
+      label.control-label(for='ver_email') Verify email
+      .controls
+        input#ver_email(type='text', name="ver_email", placeholder='Verify email')
+        input(type='hidden', name='_csrf', value=token)
+
+    .form-actions
+      button.btn.btn-primary(type='submit') Submit

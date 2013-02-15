@@ -16,6 +16,11 @@ var env = process.env.NODE_ENV || 'development'
   , auth = require('./config/middlewares/authorization')
   , mongoose = require('mongoose');
 
+// DEBUG
+console.log('DEBUG DB \n =================');
+console.log('Environment var: '+ process.env.MONGOLAB_URI);
+console.log('Config db: ' + config.db);
+
 // Set db connection
 mongoose.connect(config.db);
 
@@ -35,7 +40,7 @@ require('./config/passport')(passport, config);
 require('./config/express')(app, config, passport);
 
 // Set routes
-require('./config/routes')(app, passport, auth);
+require('./config/routes')(app, passport, auth, config);
 
 // Start app
 var port = process.env.PORT || 3000;

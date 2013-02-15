@@ -1,7 +1,11 @@
+var env = process.env.NODE_ENV || 'development'
+  , config = require('../../config/config')[env];
+
 var mongoose = require('mongoose')
   , User = mongoose.model('User')
   , dbox = require('dbox')
-  , dropbox = dbox.app({"app_key": "7is17xce4pu49m1", "app_secret": "277e15u3lk5xjdu"})
+  , randomString = require('randomstring')
+  , dropbox = dbox.app({"app_key": config.dropbox.appKey, "app_secret": config.dropbox.appSecret})
   , _ = require('underscore');
 
 exports.signin = function (req, res) {}
@@ -45,6 +49,42 @@ exports.logout = function (req, res) {
   res.redirect('/');
 }
 
+// Forgot password
+exports.reset = function(req, res){
+  res.render('users/reset');
+}
+
+// Restore new password - send out email
+exports.restore = function(req, res){
+  if(req.body.email == req.body.ver_email){
+    User
+    .findOne({ email : req.body.email })
+      .exec(function (err, user) {
+        if(!user || err){
+          console.log("ENESHI ETSI USER!");
+          res.render('users/signup', { msg: "This user does not exist. Please create a new account!", user: new User()});
+          return;
+
+        }
+        user = _.extend(user, { password: randomString.generate(7) });
+        user.provider = 'local';
+
+        user.save(function(err){
+          if(err){
+            console.log("Pao na kamo save je en mporo!");
+            res.render('users/signup', { msg: "This user does not exist. Create a new account please!", user: new User()});
+          }else{
+            console.log("Send out email dame!");
+            res.render('users/reset', { msg: "A new password was sent to your e-mail"} );
+          }
+        });
+      });  
+  } else {
+      console.log('EMAILS DONT MATCH!');
+      res.render('users/reset', { msg: "Your emails do not match!" });
+  }
+}
+
 // session
 exports.session = function (req, res) {
   res.redirect('/dashboard');
@@ -56,7 +96,7 @@ exports.create = function (req, res) {
   user.provider = 'local';
   user.save(function (err) {
     if (err) {
-      return res.render('users/signup', { errors: err.errors, user: user });
+      return res.render('users/signup', { msg: "Please fill out all form elements", user: new User() });
     }
     req.logIn(user, function(err) {
       if (err) return next(err);
@@ -90,16 +130,17 @@ exports.user = function (req, res, next, id) {
 
 
 // Dropbox Connect
-exports.connect = function(req,res){
+exports.connect = function(req, res){
   var user = req.user
-    , callbackUrl = 'http://localhost:3000/connect/dropbox/';
+    , callbackURL = config.app.url + config.dropbox.callbackURL;
 
+  console.log("CALLBACK URL: ", callbackURL);
   dropbox.requesttoken(function(status, request_token){
       user = _.extend(user, { dropbox_req_token: request_token });
       user.save(function(err,doc){
         res.render('users/connect', {
           status: status,
-          dbox_url: 'https://www.dropbox.com/1/oauth/authorize?oauth_token='+request_token.oauth_token+'&oauth_callback='+callbackUrl
+          dbox_url: 'https://www.dropbox.com/1/oauth/authorize?oauth_token='+request_token.oauth_token+'&oauth_callback='+callbackURL
         });  
       });
   });

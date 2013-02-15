@@ -1,9 +1,12 @@
+var env = process.env.NODE_ENV || 'development'
+  , config = require('../../config/config')[env];
+  
 var mongoose = require('mongoose')
   , dbox = require('dbox')
   , node_cryptojs = require('node-cryptojs-aes')
   , _ = require('underscore')
   , User = mongoose.model('User')
-  , dropbox = dbox.app({"app_key": "7is17xce4pu49m1", "app_secret": "277e15u3lk5xjdu"})
+  , dropbox = dbox.app({"app_key": config.dropbox.appKey, "app_secret": config.dropbox.appSecret})
   , CryptoJS = node_cryptojs.CryptoJS
   , JsonFormatter = node_cryptojs.JsonFormatter;
 
