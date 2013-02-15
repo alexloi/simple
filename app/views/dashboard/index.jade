@@ -7,7 +7,7 @@ block content
         ul
           li.name 
             h1 
-              a(href="#") Dashboard
+              a(href="#") aSimple.form
 
   .row(style="margin-top: 10px; margin-bottom: 10px")
     .twelve.columns
@@ -19,7 +19,7 @@ block content
     .three.columns
       .panel
         h5 Profiles
-        button.button.small.alert.bottom-margin(id="form-add") Add new profile
+        button.button.small.alert.bottom-margin(id="form-add") NEW PROFILE
         dl.vertical.tabs
           dd
             a(href="#") Record 1
@@ -51,21 +51,23 @@ block content
 
             .row
               .twelve.mobile-one.columns
-               input(type='hidden', name='_csrf', value=token)
-               button.button(type='submit') Submit
+               input(type='hidden', id='_csrf', name='_csrf', value=token)
+               button.button(id='pushData') SUBMIT
 
-//      .row
-//        .twelve.columns#form-retrieve
-//          form(method="post", action="/data/retrieve")
-//            .row
-//              .four.mobile-one.columns
-//                label.left.inline Master key
-//              .eight.mobile-one.columns
-//                input#master-retr(type='text', name='master', placeholder='Master key')
-//            .row
-//              .twelve.mobile-one.columns
-//                input(type='hidden', name='_csrf', value=token)
-//                button.button(type='submit') Submit
-  
+   
+  // Modals
+  #masterModal.reveal-modal.medium
+    h2 Please insert your master key
+    .row
+      .twelve.columns
+        input#masterKey(type='password', name='masterKey', placeholder='Master key')
+        p 
+          | What is the master key etc. here
+        p
+          b
+           | Please remember your master key. We do not store it and can not help you reset it!
+    .row
+      .panel(style='text-align:center')
+        a.button(id="closeMasterModal") SUBMIT
 
   
