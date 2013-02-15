@@ -5,7 +5,7 @@
   , "private": false
   , "author": "Alexis Loizou, alex@roboboogie.us, Github: alexloi"
   , "engines": {
-        "node": "latest"
+        "node": "0.8.19"
       , "npm": "lastest"
     }
   , "scripts": {
