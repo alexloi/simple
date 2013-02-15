@@ -6,7 +6,7 @@
   , "author": "Alexis Loizou, alex@roboboogie.us, Github: alexloi"
   , "engines": {
         "node": "0.8.19"
-      , "npm": "lastest"
+      , "npm": "1.2.10 "
     }
   , "scripts": {
       "start": "./node_modules/.bin/nodemon server.js"
