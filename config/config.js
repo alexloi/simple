@@ -29,7 +29,7 @@ module.exports = {
 		root: require('path').normalize(__dirname + '/..')
 		,app: {
 			name: 'asimpleform - production'
-			, url: 'http://production-asimpleform.herokuapp.com'
+			, url: 'http://asimpleform.com'
 		}
 		,db: process.env.MONGOLAB_URI
 		,dropbox: {
