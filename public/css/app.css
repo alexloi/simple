@@ -1,5 +1,5 @@
 body {
-  font: 16px 'Roboto Condensed', Helvetica, Arial, sans-serif !important;
+  font: 20px 'Roboto Condensed', Helvetica, Arial, sans-serif !important;
 }
 
 dd{
@@ -9,6 +9,7 @@ dd{
 h1, h2, h3, h4, h5{
 	font-family: 'Roboto Condensed' !important;
 }
+
 dl.horizontal dd:hover{
 	border-top: 3px solid #27BEDC !important;
 }
@@ -21,7 +22,7 @@ a{
 }
 
 .no-top-margin{
-	margin-top: 0px;
+	margin-top: 0px !important;
 }
 
 .bottom-margin{

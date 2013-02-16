@@ -17,11 +17,13 @@ $(document).ready(function(){
   $('#pushData').bind('click',function(e){
     e.preventDefault();
     console.log('click', masterKey);
+    pushDataObj();
   });
 
   $('#pullData').bind('click',function(e){
     e.preventDefault();
     console.log('pull click', masterKey);
+    pullDataObj();
   });
 });
 
@@ -50,9 +52,9 @@ function pushDataObj(){
       type: 'post',
       data: {
         master: masterKey,
-        phone: "mana sou",
-        ssn: "Men se kofti",
-        csrf: $("#_csrf").val()
+        phone: "chloe",
+        ssn: "Donegan",
+        csrf: $("#csrf").val()
       },
       success: function(data) {
         console.log("PUSH DATA SUCCESS:", data);

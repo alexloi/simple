@@ -29,8 +29,11 @@ block content
     .nine.columns
       .row
         .twelve.columns#form-area
+          h3.no-top-margin Add a new profile
+          hr
           form(method="post", action="/data/store")
-            fieldset.no-top-margin 
+            fieldset.no-top-margin
+             legend Personal information 
              .row
                .four.mobile-one.columns
                  label.left.inline Social security number
@@ -51,16 +54,16 @@ block content
 
             .row
               .twelve.mobile-one.columns(style="text-align:center")
-               input(type='hidden', id='_csrf', name='_csrf', value=token)
+               input(type='hidden', id='csrf', name='_csrf', value=token)
                button.button(id='pushData') SUBMIT
 
    
   // Modals
   #masterModal.reveal-modal.medium
-    h2 Please insert your master key
+    h3 Please insert your master key
     .row
       .twelve.columns
-        input#masterKey(type='password', name='masterKey', placeholder='Master key')
+        input#masterKey(type='text', name='masterKey', placeholder='Master key')
         p 
           | What is the master key etc. here
         p
