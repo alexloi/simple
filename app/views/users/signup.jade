@@ -3,24 +3,19 @@ extends auth
 block auth
   form.signup.form-horizontal(action="/users", method="post")
     .control-group
-      label.control-label(for='name') Full name
-      .controls
-        input#name(type='text', name="name", placeholder='Full name', value=user.name)
-
-    .control-group
       label.control-label(for='email') Email
       .controls
         input#email(type='text', name="email", placeholder='Email', value=user.email)
 
     .control-group
-      label.control-label(for='username') Username
-      .controls
-        input#username(type='text', name="username", placeholder='Username', value=user.username)
-
-    .control-group
       label.control-label(for='password') Password
       .controls
         input#password(type='password', name="password", placeholder='Password')
+
+    .control-group
+      label.control-label(for='password') Verify password
+      .controls
+        input#password(type='password', name="password_ver", placeholder='Repeat password')
         input(type='hidden', name='_csrf', value=token)
         
     .form-actions

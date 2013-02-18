@@ -17,9 +17,26 @@ $(window).load(function(){
 
 });
 
+// Scroll behaviour
+$(window).scroll(function(e){ 
+  if(parseInt($(window).width()) > 300) { 
+    $el = $('#profile-board'); 
+    if ($(this).scrollTop() > 150 && $el.css('position') != 'fixed'){ 
+      $el.width($el.width());
+      $el.css({'position': 'fixed', 'top': '0px'});
+    }
+
+    if ($(this).scrollTop() < 140 && $el.css('position') == 'fixed'){ 
+      $el.css({'position': 'relative', 'top': 'auto'}); 
+    }
+  }
+
+});
+
 $(document).ready(function(){
   uiBinds();
 });
+
 
 function initData(){
   // Bother to load data only if its not his first run!

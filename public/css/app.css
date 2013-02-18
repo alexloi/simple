@@ -44,11 +44,13 @@ a{
 #profile_tmpl{
 	display: none;
 }
+
 .profile_section{
 	padding-bottom: 5px;
 	margin-bottom: 5px;
 	border-bottom: 1px solid #F2F2F2;
 }
+
 .store{
 	height: 50px;
 	width: 100%;
@@ -59,4 +61,13 @@ a{
 	left: 0;
 	top: 0;
 	padding: 10px;
+}
+
+.profile-buttons{
+	padding: 5px !important;
+	text-align: center !important;
+}
+
+.profile-buttons button{
+	margin-bottom: 0px !important;
 }
