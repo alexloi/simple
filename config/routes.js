@@ -14,6 +14,7 @@ module.exports = function (app, passport, auth) {
   var dashboard = require('../app/controllers/dashboard');
   app.get('/dashboard', auth.requiresLogin, dashboard.index);
   app.get('/dashboard/tutorial', auth.requiresLogin, dashboard.tutorial);
+  app.post('/dashboard/profile', auth.requiresLogin, dashboard.profile);
 
   // User routes
   var users = require('../app/controllers/users');

@@ -3,8 +3,8 @@ var env = process.env.NODE_ENV || 'development'
   
 var mongoose = require('mongoose')
   , dbox = require('dbox')
-  , node_cryptojs = require('node-cryptojs-aes')
   , _ = require('underscore')
+  , node_cryptojs = require('node-cryptojs-aes')
   , User = mongoose.model('User')
   , dropbox = dbox.app({"app_key": config.dropbox.appKey, "app_secret": config.dropbox.appSecret})
   , CryptoJS = node_cryptojs.CryptoJS
@@ -12,20 +12,24 @@ var mongoose = require('mongoose')
 
 
 exports.store = function(req, res){
-	console.log("POST DATA:", req.body, req.body.master);
+	console.log("POST DATA:", req.body, req.body.data, req.body.master);
 
-	var data = req.body
-	  , r_pass_base64 = data.master.toString('base64')
+	var data = req.body.data
+	  , user = req.user
+	  , r_pass_base64 = req.body.master.toString('base64')
 	  , encrypt = CryptoJS.AES.encrypt(JSON.stringify(data), r_pass_base64, { format: JsonFormatter })
 	  , encrypted_json_str = encrypt.toString();
 	  //, decrypt = CryptoJS.AES.decrypt(encrypted_json_str, r_pass_base64, { format: JsonFormatter })
 	  //, decrypted_json_str = CryptoJS.enc.Utf8.stringify(decrypt);
 
+	 console.log('JSON STR', encrypted_json_str);
 	// Client
 	var client = dropbox.client(req.user.dropbox_acc_token);
 	client.account(function(status, reply){
+  		console.log('Account status', status, reply);
   		if(status == 200){
   			client.put("data.txt", encrypted_json_str, function(status, reply){
+  				console.log('PUT REPLY', status, reply);
   				if(status == 200){
   					console.log("FILE PUT RESPONSE:", reply);
   				}
@@ -33,10 +37,20 @@ exports.store = function(req, res){
   		}
 	});
 
-	//console.log("ENCRYPTED STRING JSON:", encrypted_json_str);
-	//console.log("DENCRYPTED STRING JSON:", decrypted_json_str);
+	if(req.user.first){
+		try{
+			user = _.extend(user, {first: false});
+			user.save(function(err,doc){
+				if(err){
+					console.log('ERROR CHANGING FIRST FOR USER', err);
+				}
+			});
+		}catch(err){
+			console.log("JEEZ big error on extend / save - exports.store - data.js", err);
+		}
+	}
 
-	res.redirect('/dashboard');
+	res.send(200);
 }
 
 exports.retrieve = function(req, res){
@@ -48,18 +62,21 @@ exports.retrieve = function(req, res){
 		if(status == 200){
 			client.get("data.txt", function(status, reply, metadata){
   				if(status == 200){
-  					try {
+  					try{
 	  					var decrypt = CryptoJS.AES.decrypt(reply.toString(), r_pass_base64, { format: JsonFormatter });
 	  					var decrypted_json_str = CryptoJS.enc.Utf8.stringify(decrypt);
-	  					if(!decrypted_json_str) console.log("Master password is wrong amigo.");
 	  					console.log("OEOE DECRYPTED:", decrypted_json_str);
-  					} catch (err) {
-  						console.log("Master password is wrong amigo.");
-  					}
+	  					res.send(200, { obj: decrypted_json_str});
+	  					return;
+	  				}catch(err){
+	  					res.send(400, { error: "Cannot decrypt code! Wrong master key?", status: status, reply: reply});
+  						return;	
+	  				}
+  				} else {
+				  	res.send(400, { error: "No file", status: status, reply: reply});
+  					return;
   				}
 			});
 		}
 	});
-
-	res.redirect('/dashboard');
 }

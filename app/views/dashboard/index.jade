@@ -8,56 +8,82 @@ block content
           li.name 
             h1 
               a(href="#") aSimple.form
-
-  .row(style="margin-top: 10px; margin-bottom: 10px")
+ 
+  .row#tabs(style="margin-top: 10px; margin-bottom: 10px")
     .twelve.columns
         dl.horizontal.tabs
           dd
+            a(id="view", href="#") View profiles
+          dd
+            a(id="new", href="#") Add profile
+          dd
             a(href="/logout") Logout
+  
+  .row#status
+    .twelve.columns.status
+      | Status: 
 
-  .row
-    .three.columns
+  .row#preloader
+    .twelve.columns.preloader
+      | Loading... 
+
+  .row#viewTab
+    .three.columns.profiles
       .panel
         h5 Profiles
-        button.button.small.alert.bottom-margin(id="form-add") NEW PROFILE
-        dl.vertical.tabs
-          dd
-            a(href="#") Record 1
-          dd
-            a(href="#") Record 2
+        button.button.small.alert.bottom-margin(id="btn-add-profile") NEW PROFILE
+        dl.vertical.tabs#profile-list
 
-    .nine.columns
+    .nine.columns.profile-forms
       .row
-        .twelve.columns#form-area
-          h3.no-top-margin Add a new profile
+        .twelve.columns#profile-area
+           #profile-tmpl
+
+      .row
+        .twelve.columns#profile-area-actions(style="text-align:center")
+
+         
+  .row#newTab
+    .twelve.columns#form-area
+      h3.no-top-margin Add a new profile
           hr
-          form(method="post", action="/data/store")
+          form(method="post", id="new_profile", action="/data/store")
+            fieldset.no-top-margin
+             legend Profile
+             .row
+               .four.columns
+                 label.left.inline Profile name
+               .eight.columns
+                 input#ssn(type='text', name="profile_name", placeholder='Profile name')
+
             fieldset.no-top-margin
              legend Personal information 
              .row
-               .four.mobile-one.columns
+               .four.columns
                  label.left.inline Social security number
-               .eight.mobile-one.columns
-                 input#ssn(type='text', name="ssn", placeholder='Social security number')
+               .eight.columns
+                 input#ssn(type='text', name="personal_ssn", placeholder='Social security number')
 
              .row
-               .four.mobile-one.columns
+               .four.columns
                  label.left.inline Phone number
-               .eight.mobile-one.columns
-                 input#phone(type='text', name="phone", placeholder='Phone')
-
-             .row
-               .four.mobile-one.columns
-                 label.left.inline Master key
-               .eight.mobile-one.columns
-                 input#master-sub(type='text', name="master", placeholder='Master key')
+               .eight.columns
+                 input#phone(type='text', name="personal_phone", placeholder='Phone')
 
             .row
-              .twelve.mobile-one.columns(style="text-align:center")
-               input(type='hidden', id='csrf', name='_csrf', value=token)
+              .twelve.columns(style="text-align:center")
                button.button(id='pushData') SUBMIT
 
-   
+            .row
+              .twelve.columns
+                h3 What happens when I submit?
+                h5.subheader 
+                  | When you press submit we take the data you have added, encrypt it based on your secret master key and store it in your dropbox. 
+                  | This way we ensure that you are the only one with access to your data. Please be careful - if you forget your 
+                  | master key we will not be able to recover it, as we do not store it anywhere! 
+  
+  input(type='hidden', id='csrf', name='_csrf', value=token)
+  
   // Modals
   #masterModal.reveal-modal.medium
     h3 Please insert your master key
@@ -72,5 +98,7 @@ block content
     .row
       .panel(style='text-align:center')
         a.button(id="closeMasterModal") SUBMIT
-
   
+    
+  script(type="text/javascript")
+     var userObj = !{JSON.stringify(user)};

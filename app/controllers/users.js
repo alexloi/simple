@@ -20,7 +20,7 @@ exports.authCallback = function (req, res, next) {
 exports.login = function (req, res) {
   if(req.user){
     console.log('User already logged in');
-    res.redirect('dashboard');
+    res.redirect('/dashboard');
 
   } else {  
     console.log('No user object found');

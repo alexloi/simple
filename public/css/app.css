@@ -10,6 +10,10 @@ h1, h2, h3, h4, h5{
 	font-family: 'Roboto Condensed' !important;
 }
 
+#viewTab, #newTab, #tabs, #preloader{
+	display:none;
+}
+
 dl.horizontal dd:hover{
 	border-top: 3px solid #27BEDC !important;
 }
@@ -33,6 +37,18 @@ a{
 	margin-right: 10px;	
 }
 
+.status{
+	display:none;
+}
+
+#profile_tmpl{
+	display: none;
+}
+.profile_section{
+	padding-bottom: 5px;
+	margin-bottom: 5px;
+	border-bottom: 1px solid #F2F2F2;
+}
 .store{
 	height: 50px;
 	width: 100%;
